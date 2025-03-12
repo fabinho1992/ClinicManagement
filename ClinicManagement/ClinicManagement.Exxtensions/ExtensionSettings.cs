@@ -46,5 +46,14 @@ namespace ClinicManagement.Exxtensions
 
             return services;
         }
+
+        public static IServiceCollection AddExtensionsMediatR(this IServiceCollection services)
+        {
+            var myHandlers = AppDomain.CurrentDomain.Load("ClinicManagement.Application");
+            services.AddMediatR(config =>
+                config.RegisterServicesFromAssembly(myHandlers));
+
+            return services;
+        }
     }
 }
