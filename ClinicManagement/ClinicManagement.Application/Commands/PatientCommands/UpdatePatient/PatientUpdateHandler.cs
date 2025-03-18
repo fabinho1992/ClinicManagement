@@ -42,6 +42,7 @@ namespace ClinicManagement.Application.Commands.PatientCommands.UpdatePatient
             address.UpdateAddress(zipCode.Logradouro, zipCode.Localidade, zipCode.Uf, zipCode.Cep, request.Complement, doctorId: null, patient.Id, TypeUser.Patient);
 
             patient.UpdateBase(request.Name, request.DateOfBirth, request.BloodType, request.Phone,request.Email, request.Cpf, request.ZipCode, address);
+            patient.UpdatePatient(request.Height, request.Weight);
 
             await _unitOfWork.PatientRepository.Update(patient);
             await _unitOfWork.Commit();

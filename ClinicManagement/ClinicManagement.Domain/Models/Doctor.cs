@@ -25,5 +25,13 @@ namespace ClinicManagement.Domain.Models
 
         public string CRM { get; private set; }
         public Specialty Specialty { get; private set; }
+
+
+        public void UpdateDoctor(string crm, Specialty specialty)
+        {
+            CRM = crm;
+            Specialty = specialty;
+        }
+
     }
 }
