@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Infrastructure.Configurations
 {
-    public class TreatmentConfiguration : IEntityTypeConfiguration<Treatment>
+    public class ConsultConfiguration : IEntityTypeConfiguration<Consult>
     {
-        public void Configure(EntityTypeBuilder<Treatment> builder)
+        public void Configure(EntityTypeBuilder<Consult> builder)
         {
             builder.HasKey(t => t.Id);
+
+            builder.ToTable("Consults");
 
             builder.Property(t => t.TypeTreatment)
                 .HasConversion<string>()

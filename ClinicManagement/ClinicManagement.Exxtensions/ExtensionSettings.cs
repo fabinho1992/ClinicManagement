@@ -1,6 +1,10 @@
-﻿using ClinicManagement.Domain.IRepository;
+﻿using BloodDonationDataBase.Domain.IServices;
+using BloodDonationDataBase.Infrastructure.Services;
+using ClinicManagement.Domain.IRepository;
 using ClinicManagement.Infrastructure.Context;
 using ClinicManagement.Infrastructure.Repository;
+using FinancialGoalsManager.Application.ServicesEmail;
+using FinancialGoalsManager.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,8 +31,11 @@ namespace ClinicManagement.Exxtensions
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+            services.AddScoped<IConsulRepository, ConsultRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAddressZipCode, AddressZipCode>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ISendEmail, SendEmail>();
 
             return services;
         }

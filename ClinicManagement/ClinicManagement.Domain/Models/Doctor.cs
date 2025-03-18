@@ -9,10 +9,15 @@ namespace ClinicManagement.Domain.Models
 {
     public class Doctor : Base
     {
-       
 
-        public Doctor(string name, string surName, DateTime dateOfBirth, BloodType bloodType, 
-            string phone, string email, string cpf, string crm, Specialty specialty) : base(name, dateOfBirth, bloodType, phone, email, cpf)
+        public Doctor() : base(string.Empty, DateTime.MinValue, BloodType.A, string.Empty, string.Empty, string.Empty, string.Empty)
+        {
+            
+        }
+
+
+        public Doctor(string name, DateTime dateOfBirth, BloodType bloodType, 
+            string phone, string email, string cpf, string zipCode, string crm, Specialty specialty) : base(name, dateOfBirth, bloodType, phone, email, cpf, zipCode)
         {
             CRM = crm;
             Specialty = specialty;

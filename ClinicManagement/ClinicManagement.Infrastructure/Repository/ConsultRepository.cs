@@ -11,24 +11,34 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Infrastructure.Repository
 {
-    public class TreatmentRepository : RepositoryBase<Treatment>, ITreatmentRepository
+    public class ConsultRepository : RepositoryBase<Consult>, IConsulRepository
     {
         private readonly ClinicDbContext _context;
 
-        public TreatmentRepository(ClinicDbContext contextBase, ClinicDbContext context) : base(contextBase)
+        public ConsultRepository(ClinicDbContext contextBase, ClinicDbContext context) : base(contextBase)
         {
             _context = context;
         }
 
-        public async Task<Treatment> GetByIdAsync(Guid id)
+        public async Task<Consult> GetByIdAsync(Guid id)
         {
-            var treatment = await _context.Treatments
+            var treatment = await _context.Consults
                 .Include(t => t.Patient)
                 .Include(t => t.Doctor)
                 .Include(t => t.Service)
                 .SingleOrDefaultAsync(t => t.Id == id);
 
             return treatment;
+        }
+
+        public async Task<Consult> GetByIdPatient(Guid id)
+        {
+            var consult = await _context.Consults
+                .Where(c => c.PatientId == id) 
+                .OrderByDescending(c => c.CreatAt) 
+                .FirstOrDefaultAsync(); 
+
+            return consult;
         }
     }
 }

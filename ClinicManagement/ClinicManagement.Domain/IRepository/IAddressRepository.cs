@@ -9,6 +9,9 @@ namespace ClinicManagement.Domain.IRepository
 {
     public interface IAddressRepository
     {
+        Task CreateAsync(Address address);
         Task<Address> GetByIdAsync(Guid id);
+        Task Update(Address address);
+        Task<Address> GetByIdUser(Guid id);
     }
 }

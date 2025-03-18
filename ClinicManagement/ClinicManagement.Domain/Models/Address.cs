@@ -14,7 +14,7 @@ namespace ClinicManagement.Domain.Models
         }
 
         public Address(string street, string city, string state, string zipCode,
-            string complement, Guid doctorId, Guid patientId, TypeUser typeUser)
+            string complement, Guid? doctorId, Guid? patientId, TypeUser typeUser)
         {
             Street = street;
             City = city;
@@ -39,6 +39,20 @@ namespace ClinicManagement.Domain.Models
         public TypeUser TypeUser { get; private set; }
         public Doctor? Doctor { get; set; }
         public Patient? Patient { get; set; }
+
+
+        public void UpdateAddress(string street, string city, string state, string zipCode,
+            string complement, Guid? doctorId, Guid? patientId, TypeUser typeUser)
+        {
+            Street = street;
+            City = city;
+            State = state;
+            ZipCode = zipCode;
+            Complement = complement;
+            DoctorId= doctorId;
+            PatientId = patientId;
+            TypeUser = typeUser;
+        }
 
     }
 }

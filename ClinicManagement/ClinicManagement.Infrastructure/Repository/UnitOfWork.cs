@@ -13,7 +13,7 @@ namespace ClinicManagement.Infrastructure.Repository
         private IServiceRepository? _serviceRepository;
         private IPatientRepository? _patientRepository;
         private IDoctorRepository? _dctorRepository;
-        private ITreatmentRepository? _treatmentRepository;
+        private IConsulRepository? _treatmentRepository;
         private IAddressRepository? _addressRepository;
 
         private readonly ClinicDbContext _context;
@@ -47,11 +47,11 @@ namespace ClinicManagement.Infrastructure.Repository
             }
         }
 
-        public ITreatmentRepository TreatmentRepository
+        public IConsulRepository ConsultRepository
         {
             get
             {
-                return _treatmentRepository = _treatmentRepository ?? new TreatmentRepository(_context, _context);
+                return _treatmentRepository = _treatmentRepository ?? new ConsultRepository(_context, _context);
             }
         }
 

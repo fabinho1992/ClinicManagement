@@ -29,7 +29,10 @@ namespace ClinicManagement.Infrastructure.Configurations
                 .HasMaxLength(200); 
 
             builder.Property(x => x.Cpf)
-                .HasMaxLength(14); 
+                .HasMaxLength(14);
+
+            builder.Property(d => d.ZipCode).HasMaxLength(8)
+                .IsRequired();
 
             builder.Property(x => x.Height)
                 .IsRequired();
@@ -37,7 +40,7 @@ namespace ClinicManagement.Infrastructure.Configurations
             builder.Property(x => x.Weight)
                 .IsRequired();
 
-            builder.HasMany(x => x.Treatments)
+            builder.HasMany(x => x.Consults)
                 .WithOne(x => x.Patient)
                 .HasForeignKey(x => x.PatientId);
 

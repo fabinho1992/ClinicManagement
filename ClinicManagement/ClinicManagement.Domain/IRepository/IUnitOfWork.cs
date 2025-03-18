@@ -11,7 +11,7 @@ namespace ClinicManagement.Domain.IRepository
         IServiceRepository ServiceRepository { get; }
         IPatientRepository PatientRepository { get; }
         IDoctorRepository DoctorRepository { get; }
-        ITreatmentRepository TreatmentRepository { get; }
+        IConsulRepository ConsultRepository { get; }
         IAddressRepository AddressRepository { get; }
         Task Commit();
     }

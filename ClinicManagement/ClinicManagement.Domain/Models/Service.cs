@@ -22,7 +22,7 @@ namespace ClinicManagement.Domain.Models
         public string Description { get; private set; }
         public double Value { get; private set; }
         public int Duration { get; private set; }
-        public virtual Treatment? Treatment { get; private set; }
+        public virtual Consult? Consult { get; private set; }
 
     }
 }

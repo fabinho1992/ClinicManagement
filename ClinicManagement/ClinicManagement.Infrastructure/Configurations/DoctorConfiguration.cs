@@ -34,7 +34,10 @@ namespace ClinicManagement.Infrastructure.Configurations
             builder.Property(x => x.CRM)
                 .IsRequired();
 
-            builder.HasMany(x => x.Treatments)
+            builder.Property(d => d.ZipCode).HasMaxLength(8)
+                .IsRequired();
+
+            builder.HasMany(x => x.Consults)
                 .WithOne(x => x.Doctor)
                 .HasForeignKey(x => x.DoctorId);
 

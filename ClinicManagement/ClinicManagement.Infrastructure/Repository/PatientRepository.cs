@@ -23,9 +23,12 @@ namespace ClinicManagement.Infrastructure.Repository
         public async Task<Patient> GetByCpfAsync(string cpf)
         {
             var patient = await _context.Patients
-                .Include(p => p.Treatments)
-                .Include(p => p.Address)
-                .FirstOrDefaultAsync(p => p.Cpf == cpf);
+               .Include(p => p.Consults)
+                   .ThenInclude(c => c.Doctor)
+               .Include(p => p.Consults)
+                   .ThenInclude(c => c.Service)
+               .Include(p => p.Address)
+               .FirstOrDefaultAsync(p => p.Cpf == cpf);
 
             return patient;
         }
@@ -33,7 +36,10 @@ namespace ClinicManagement.Infrastructure.Repository
         public async Task<Patient> GetByIdAsync(Guid id)
         {
             var patient = await _context.Patients
-                .Include(p => p.Treatments)
+                .Include(p => p.Consults)
+                    .ThenInclude(c => c.Doctor) 
+                .Include(p => p.Consults)
+                    .ThenInclude(c => c.Service) 
                 .Include(p => p.Address)
                 .FirstOrDefaultAsync(p => p.Id == id);
 

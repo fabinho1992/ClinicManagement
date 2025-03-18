@@ -15,6 +15,29 @@ namespace ClinicManagement.Infrastructure.Configurations
         {
             builder.HasKey(a => a.Id);
 
+            builder.Property(a => a.Street).HasMaxLength(150)
+                .IsRequired();
+
+            builder.Property(a => a.City).HasMaxLength(30)
+                .IsRequired();
+
+            builder.Property(a => a.State)
+                .HasMaxLength(30)
+                .IsRequired();
+
+            builder.Property(a => a.ZipCode)
+                .HasMaxLength(9)
+                .IsRequired();
+
+            builder.Property(a => a.Complement).HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(a => a.PatientId)
+                .IsRequired(false);
+
+            builder.Property(a => a.DoctorId)
+                .IsRequired(false);
+
             builder.Property(t => t.TypeUser)
                .HasConversion<string>()
                .IsRequired();

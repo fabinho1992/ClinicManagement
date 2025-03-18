@@ -30,9 +30,9 @@ namespace ClinicManagement.Infrastructure.Configurations
             builder.Property(x => x.Duration)
                 .IsRequired();
 
-            builder.HasOne(s => s.Treatment)
+            builder.HasOne(s => s.Consult)
                 .WithOne(a => a.Service)
-                .HasForeignKey<Treatment>(a => a.ServiceId);
+                .HasForeignKey<Consult>(a => a.ServiceId);
         }
     }
 }

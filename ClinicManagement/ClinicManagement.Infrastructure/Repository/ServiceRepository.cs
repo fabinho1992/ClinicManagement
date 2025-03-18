@@ -23,7 +23,7 @@ namespace ClinicManagement.Infrastructure.Repository
         public async Task<Service> GetByIdAsync(Guid id)
         {
             var service = await _context.Services
-                .Include(s => s.Treatment)
+                .Include(s => s.Consult)
                 .SingleOrDefaultAsync(s => s.Id == id);
 
             return service;

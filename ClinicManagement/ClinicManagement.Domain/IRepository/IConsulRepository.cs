@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Domain.IRepository
 {
-    public interface ITreatmentRepository : IGeneric<Treatment>
+    public interface IConsulRepository : IGeneric<Consult>
     {
-        Task<Treatment> GetByIdAsync(Guid id);
+        Task<Consult> GetByIdAsync(Guid id);
+        Task<Consult> GetByIdPatient(Guid id);
     }
 }

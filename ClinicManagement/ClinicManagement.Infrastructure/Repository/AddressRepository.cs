@@ -19,6 +19,11 @@ namespace ClinicManagement.Infrastructure.Repository
             _context = context;
         }
 
+        public async Task CreateAsync(Address address)
+        {
+            await _context.Addresses.AddAsync(address);
+        }
+
         public async Task<Address> GetByIdAsync(Guid id)
         {
             var address = await _context.Addresses
@@ -26,6 +31,19 @@ namespace ClinicManagement.Infrastructure.Repository
                 .SingleOrDefaultAsync(a => a.Id == id);
 
             return address;
+        }
+
+        public async Task<Address> GetByIdUser(Guid id)
+        {
+            var address = await _context.Addresses
+               .FirstOrDefaultAsync(a => a.DoctorId == id || a.PatientId == id);
+
+            return address;
+        }
+
+        public async Task Update(Address address)
+        {
+            _context.Addresses.Update(address);
         }
     }
 }

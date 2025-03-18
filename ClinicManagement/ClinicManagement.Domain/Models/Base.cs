@@ -10,7 +10,7 @@ namespace ClinicManagement.Domain.Models
     public class Base
     {
         public Base(string name, DateTime dateOfBirth, BloodType bloodType,
-            string phone, string email, string cpf)
+            string phone, string email, string cpf, string zipCode)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -19,6 +19,7 @@ namespace ClinicManagement.Domain.Models
             Phone = phone;
             Email = email;
             Cpf = cpf;
+            ZipCode = zipCode;
         }
 
         public Guid Id { get; private set; }
@@ -28,8 +29,23 @@ namespace ClinicManagement.Domain.Models
         public string Phone { get; private set; }
         public string Email { get; private set; }
         public string Cpf { get; private set; }
+        public string ZipCode { get; private set; }
         public Address? Address { get; set; }
-        public List<Treatment> Treatments { get; set; } = new List<Treatment>();
+        public List<Consult> Consults { get; set; } = new List<Consult>();
+
+
+        public void UpdateBase(string name, DateTime dateOfBirth, BloodType bloodType,
+            string phone, string email, string cpf, string zipCode, Address address)
+        {
+            Name = name;
+            DateOfBirth = dateOfBirth;
+            BloodType = bloodType;
+            Phone = phone;
+            Email = email;
+            Cpf = cpf;
+            ZipCode = zipCode;
+            Address = address;
+        }
 
     }
 }

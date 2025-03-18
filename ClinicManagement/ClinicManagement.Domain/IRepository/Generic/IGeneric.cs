@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BloodDonationDataBase.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace ClinicManagement.Domain.IRepository.Generic
         Task Add(T entity);
         Task Update(T entity);
         Task Delete(Guid id);
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(ParametrosPaginacao parametrosPaginacao);
     }
 }

@@ -17,7 +17,7 @@ namespace ClinicManagement.Infrastructure.Context
         }
 
         public DbSet<Service> Services { get; set; }
-        public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<Consult> Consults { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Address> Addresses { get; set; }

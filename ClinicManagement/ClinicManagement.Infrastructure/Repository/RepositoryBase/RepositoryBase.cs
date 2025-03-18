@@ -1,4 +1,5 @@
 ﻿
+using BloodDonationDataBase.Domain.Models;
 using ClinicManagement.Domain.IRepository.Generic;
 using ClinicManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -33,9 +34,11 @@ namespace Infraestrutura.Repository.Generic
             _contextBase.Set<T>().Remove(entityId);
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(ParametrosPaginacao parametrosPaginacao)
         {
-            return await _contextBase.Set<T>().ToListAsync();
+            return await _contextBase.Set<T>().AsNoTracking()
+                .Skip((parametrosPaginacao.PageNumber - 1) * parametrosPaginacao.PageSize)
+                .Take(parametrosPaginacao.PageSize).ToListAsync();
         }
 
         public async Task Update(T entity)
