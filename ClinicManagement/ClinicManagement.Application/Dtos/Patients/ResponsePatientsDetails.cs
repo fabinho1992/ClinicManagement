@@ -11,8 +11,8 @@ namespace ClinicManagement.Application.Dtos.Patients
 {
     public class ResponsePatientsDetails
     {
-        public ResponsePatientsDetails(Guid id, string name, string dateOfBirth, BloodType bloodType, string phone, 
-            string email, string cpf, ResponseAddress responseAddress, List<RespConsutPatient>? respConsutPatients)
+        public ResponsePatientsDetails(Guid id, string name, string dateOfBirth, BloodType bloodType, string phone,
+            string email, string cpf, ResponseAddress responseAddress, List<RespConsutPatient>? respConsutPatients, double height, double weight)
         {
             Id = id;
             Name = name;
@@ -23,6 +23,8 @@ namespace ClinicManagement.Application.Dtos.Patients
             Cpf = cpf;
             ResponseAddress = responseAddress;
             RespConsutPatients = respConsutPatients;
+            Height = height;
+            Weight = weight;
         }
 
         public Guid Id { get;  set; }
@@ -32,6 +34,8 @@ namespace ClinicManagement.Application.Dtos.Patients
         public string Phone { get;  set; }
         public string Email { get;  set; }
         public string Cpf { get;  set; }
+        public double Height { get; set; }
+        public double Weight { get; set; }
         public ResponseAddress ResponseAddress { get; set; }
         public List<RespConsutPatient>? RespConsutPatients { get; set; }
     }

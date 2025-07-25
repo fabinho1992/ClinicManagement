@@ -11,8 +11,8 @@ namespace ClinicManagement.Application.Commands.PatientCommands.CreatePatient
 {
     public class CreatePatCommand : IRequest<ResultViewModel<Guid>>
     {
-        public CreatePatCommand(string name, DateTime dateOfBirth, BloodType bloodType, string phone, 
-            string email, string cpf, string zipCode, string complement, double height, double weight)
+        public CreatePatCommand(string name, DateTime dateOfBirth, BloodType bloodType, string phone,
+            string email, string cpf, string zipCode, string complement, double height, double weight, string street, string city, string state)
         {
             Name = name;
             DateOfBirth = dateOfBirth;
@@ -24,6 +24,9 @@ namespace ClinicManagement.Application.Commands.PatientCommands.CreatePatient
             Complement = complement;
             Height = height;
             Weight = weight;
+            Street = street;
+            City = city;
+            State = state;
         }
 
         public string Name { get; private set; }
@@ -36,5 +39,8 @@ namespace ClinicManagement.Application.Commands.PatientCommands.CreatePatient
         public string Complement { get; set; }
         public double Height { get; private set; }
         public double Weight { get; private set; }
+        public string Street { get; private set; }
+        public string City { get; private set; }
+        public string State { get; private set; }
     }
 }

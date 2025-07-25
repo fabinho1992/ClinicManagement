@@ -21,7 +21,8 @@ namespace ClinicManagement.Application.Queries.Patients.PatientsByList
 
         public async Task<ResultViewModel<List<ResponsePatientsAll>>> Handle(PatientsLisQuery request, CancellationToken cancellationToken)
         {
-            var patients = await _unitOfWork.PatientRepository.GetAll(request);
+            var (patients, totalCount) = await _unitOfWork.PatientRepository.GetAll(request);
+            
             if(patients is null)
             {
                 return ResultViewModel<List<ResponsePatientsAll>>.Error("The Patients could not be found");
@@ -35,7 +36,7 @@ namespace ClinicManagement.Application.Queries.Patients.PatientsByList
                 listPatients.Add(responsePatient);
             }
 
-            return ResultViewModel<List<ResponsePatientsAll>>.Success(listPatients);
+            return ResultViewModel<List<ResponsePatientsAll>>.Success(listPatients, totalCount);
         }
     }
 }

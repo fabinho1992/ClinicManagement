@@ -26,10 +26,16 @@ namespace ClinicManagement.Infrastructure.Configurations
                 .HasMaxLength(20); 
 
             builder.Property(x => x.Email)
-                .HasMaxLength(200); 
+                .HasMaxLength(200);
+
+            builder.HasIndex(x => x.Email)
+            .IsUnique();
 
             builder.Property(x => x.Cpf)
                 .HasMaxLength(14);
+
+            builder.HasIndex(x => x.Cpf)
+            .IsUnique();
 
             builder.Property(d => d.ZipCode).HasMaxLength(8)
                 .IsRequired();

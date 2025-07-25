@@ -33,6 +33,14 @@ namespace ClinicManagement.Infrastructure.Repository
             return patient;
         }
 
+        public async Task<Patient> GetByEmail(string email)
+        {
+            var patient = await _context.Patients
+                .FirstOrDefaultAsync(p => p.Email == email);
+
+            return patient;
+        }
+
         public async Task<Patient> GetByIdAsync(Guid id)
         {
             var patient = await _context.Patients

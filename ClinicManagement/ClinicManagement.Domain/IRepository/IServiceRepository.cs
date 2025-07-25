@@ -1,4 +1,5 @@
-﻿using ClinicManagement.Domain.IRepository.Generic;
+﻿using BloodDonationDataBase.Domain.Models;
+using ClinicManagement.Domain.IRepository.Generic;
 using ClinicManagement.Domain.Models;
 using System;
 using System.Collections.Generic;

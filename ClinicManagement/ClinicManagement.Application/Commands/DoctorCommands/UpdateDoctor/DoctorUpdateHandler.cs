@@ -2,7 +2,6 @@
 using ClinicManagement.Domain.Enuns;
 using ClinicManagement.Domain.IRepository;
 using FinancialGoalsManager.Application.Dtos;
-using FinancialGoalsManager.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,13 +16,10 @@ namespace ClinicManagement.Application.Commands.DoctorCommands.UpdateDoctor
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAddressZipCode _addressZipCode;
-        private ILogger _logger;
-
-        public DoctorUpdateHandler(IUnitOfWork unitOfWork, IAddressZipCode addressZipCode, ILogger logger)
+        public DoctorUpdateHandler(IUnitOfWork unitOfWork, IAddressZipCode addressZipCode)
         {
             _unitOfWork = unitOfWork;
             _addressZipCode = addressZipCode;
-            _logger = logger;
         }
 
         public async Task<ResultViewModel<Guid>> Handle(DoctorUpdateCommand request, CancellationToken cancellationToken)
@@ -50,7 +46,6 @@ namespace ClinicManagement.Application.Commands.DoctorCommands.UpdateDoctor
             await _unitOfWork.AddressRepository.Update(address);
             await _unitOfWork.Commit();
 
-            _logger.LogInformation("Updade Sucess _-_-_-_-_-_");
 
             return ResultViewModel<Guid>.Success(doctor.Id);
         }

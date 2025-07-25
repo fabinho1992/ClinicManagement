@@ -1,5 +1,8 @@
-﻿using ClinicManagement.Application.Commands.ConsultCommands.CreateConsult;
+﻿using BloodDonationDataBase.Domain.Models;
+using ClinicManagement.Application.Commands.ConsultCommands.CreateConsult;
 using ClinicManagement.Application.Commands.DoctorCommands.CreateDoctor;
+using ClinicManagement.Application.Queries.Consults.CnosultsGetAll;
+using ClinicManagement.Application.Queries.Consults.ConsultByDate;
 using ClinicManagement.Application.Queries.Consults.ConsultsById;
 using ClinicManagement.Application.Queries.Patients.PatientsById;
 using MediatR;
@@ -34,7 +37,7 @@ namespace ClinicManagement.Api.Controllers
                 return BadRequest(result.Message);
             }
 
-            return Ok();
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
         }
 
 
@@ -44,6 +47,34 @@ namespace ClinicManagement.Api.Controllers
             var query = new ConsultByIdQuery(id);
 
             var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] ParametrosPaginacao paginacao)
+        {
+            var query = new ConsultsGetAllQuery(paginacao.PageNumber, paginacao.PageSize);
+
+            var result = await _mediator.Send(query);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("Get-date")]
+        public async Task<IActionResult> GetAllDate(DateTime date)
+        {
+            var query = new ConsultGetDateQuery(date);
+
+            var result = await _mediator.Send(query);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
 
             return Ok(result);
         }

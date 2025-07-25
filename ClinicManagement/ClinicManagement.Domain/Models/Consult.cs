@@ -9,7 +9,7 @@ namespace ClinicManagement.Domain.Models
 {
     public class Consult
     {
-        public Consult(Guid patientId, Guid doctorId, Guid serviceId, string convention,
+        public Consult(Guid patientId, Guid doctorId, Guid? serviceId, string convention,
             DateTime start, DateTime finish, TypeTreatment typeTreatment)
         {
             PatientId = patientId;
@@ -25,7 +25,7 @@ namespace ClinicManagement.Domain.Models
         public Guid Id { get; private set; }
         public Guid PatientId { get; private set; }
         public Guid DoctorId { get; private set; }
-        public Guid ServiceId { get; private set; }
+        public Guid? ServiceId { get; private set; }
         public string Convention { get; private set; }
         public DateTime CreatAt { get; private set; }
         public DateTime Start { get; private set; }

@@ -8,9 +8,14 @@ namespace ClinicManagement.Domain.Enuns
 {
     public enum Specialty
     {
-        Pediatrician,
-        Cardiologist,
-        Clinician,
-        Dermatologist
+        PEDIATRICS,
+        CARDIOLOGY,
+        ORTHOPEDICS,
+        GENERAL_PRACTICE,
+        DERMATOLOGY,
+        GYNECOLOGY,
+        NEUROLOGY,
+        OPHTHALMOLOGY
+
     }
 }

@@ -1,5 +1,4 @@
-﻿using FinancialGoalsManager.Domain.Services;
-using MimeKit;
+﻿using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using ClinicManagement.Domain.Services.EmailServices;
 
-namespace FinancialGoalsManager.Application.ServicesEmail
+namespace ClinicManagement.Application.Services.EmailServices
 {
     public class EmailService : IEmailService
     {

@@ -1,7 +1,7 @@
 ﻿using ClinicManagement.Domain.IRepository;
 using ClinicManagement.Domain.Models;
+using ClinicManagement.Domain.Services.EmailServices;
 using FinancialGoalsManager.Application.Dtos;
-using FinancialGoalsManager.Domain.Services;
 using MediatR;
 using System;
 using System.Collections.Generic;

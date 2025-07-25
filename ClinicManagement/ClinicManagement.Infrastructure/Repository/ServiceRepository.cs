@@ -1,4 +1,5 @@
-﻿using ClinicManagement.Domain.IRepository;
+﻿using BloodDonationDataBase.Domain.Models;
+using ClinicManagement.Domain.IRepository;
 using ClinicManagement.Domain.Models;
 using ClinicManagement.Infrastructure.Context;
 using Infraestrutura.Repository.Generic;
@@ -23,7 +24,7 @@ namespace ClinicManagement.Infrastructure.Repository
         public async Task<Service> GetByIdAsync(Guid id)
         {
             var service = await _context.Services
-                .Include(s => s.Consult)
+                .Include(s => s.Consults)
                 .SingleOrDefaultAsync(s => s.Id == id);
 
             return service;

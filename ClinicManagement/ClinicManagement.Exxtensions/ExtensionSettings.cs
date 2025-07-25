@@ -1,26 +1,45 @@
 ﻿using BloodDonationDataBase.Domain.IServices;
 using BloodDonationDataBase.Infrastructure.Services;
+using BookReviewManager.Domain.IServices.Autentication;
+using BookReviewManager.Infrastructure.Service.Identity;
+using ClinicManagement.Application.Services.EmailServices;
+using ClinicManagement.Application.Services.WorkServices;
 using ClinicManagement.Domain.IRepository;
+using ClinicManagement.Domain.Services.EmailServices;
+using ClinicManagement.Domain.Services.IAuthService;
 using ClinicManagement.Infrastructure.Context;
+using ClinicManagement.Infrastructure.Reports;
 using ClinicManagement.Infrastructure.Repository;
-using FinancialGoalsManager.Application.ServicesEmail;
-using FinancialGoalsManager.Domain.Services;
+using ClinicManagement.Infrastructure.Services.AuthService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
+using System.Text;
 using System.Text.Json.Serialization;
 
-namespace ClinicManagement.Exxtensions
+namespace ClinicManagement.Extensions
 {
     public static class ExtensionSettings
     {
+
         public static IServiceCollection AddDbContextFinancialGoals(this IServiceCollection services, IConfiguration configuration)
         {
 
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ClinicDbContext>(options =>
              options.UseNpgsql(connectionString));
+
+            services.AddDbContext<DbContextIdentity>(options =>
+             options.UseNpgsql(connectionString));
+
+            //Identity
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<DbContextIdentity>()
+                .AddDefaultTokenProviders();
 
             return services;
         }
@@ -36,6 +55,29 @@ namespace ClinicManagement.Exxtensions
             services.AddScoped<IAddressZipCode, AddressZipCode>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ISendEmail, SendEmail>();
+            services.AddScoped<ICreateUser, CreateUser>();
+            services.AddScoped<ICreateRole, CreateRole>();
+            services.AddScoped<ILoginUser, LoginUser>();
+            services.AddScoped<IAddRole, AddRole>();
+            services.AddScoped<ITokenService, TokenService>();
+            //services.AddTransient<MedicalCertificate>();
+
+            //Worker
+            services.AddHostedService<Worker>();
+
+            //Memory Cache
+            services.AddMemoryCache();
+
+            //Cors
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowNextJS",
+                    policy => policy
+                        .WithOrigins("http://localhost:3000") // URL do seu Next.js
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()); // Se usar cookies/auth
+            });
 
             return services;
         }
@@ -59,6 +101,47 @@ namespace ClinicManagement.Exxtensions
             var myHandlers = AppDomain.CurrentDomain.Load("ClinicManagement.Application");
             services.AddMediatR(config =>
                 config.RegisterServicesFromAssembly(myHandlers));
+
+            return services;
+        }
+
+        public static IServiceCollection AddJwtAuthetication(this IServiceCollection services, IConfiguration configuration)
+        {
+            //Jwt Token
+            var secretKey = configuration["Jwt:SecretKey"] ?? throw new ArgumentException("Invalid secret Key ..");
+
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; // desafio de solicitar o token
+            }).AddJwtBearer(opt =>
+            {
+                opt.SaveToken = true; // salvar o token
+                opt.RequireHttpsMetadata = true; // se é preciso https para transmitir o token , em produçao é true
+                opt.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidAudience = configuration["Jwt:ValidAudience"],
+                    ValidIssuer = configuration["Jwt:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+
+                };
+            });
+
+            //Politicas que serão usadas para acessar os endpoints
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("Medico", policy => policy.RequireRole("Medico"));
+
+                opt.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+
+                opt.AddPolicy("Recepcionista", policy => policy.RequireRole("Recepcionista"));
+            }
+            );
 
             return services;
         }

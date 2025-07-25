@@ -28,16 +28,18 @@ namespace FinancialGoalsManager.Application.Dtos
 
     public class ResultViewModel<T> : ResultViewModel
     {
-        public ResultViewModel(T? data, bool isSuccess = true, string message = "")
+        public ResultViewModel(T? data, bool isSuccess = true, string message = "", int? totalPage = 0)
                 : base(isSuccess, message)
         {
             Data = data;
+            TotalPage = totalPage;
         }
 
         public T? Data { get; private set; }
+        public int? TotalPage { get; private set; }
 
-        public static ResultViewModel<T> Success(T data)
-            => new(data);
+        public static ResultViewModel<T> Success(T data, int? totalCount = null)
+        => new(data, true, "", totalCount);
 
         public static ResultViewModel<T> Error(string message)
             => new(default, false, message);

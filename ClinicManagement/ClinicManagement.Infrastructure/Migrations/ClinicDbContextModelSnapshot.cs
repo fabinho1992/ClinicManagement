@@ -96,7 +96,7 @@ namespace ClinicManagement.Infrastructure.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ServiceId")
+                    b.Property<Guid?>("ServiceId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Start")
@@ -112,8 +112,7 @@ namespace ClinicManagement.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("ServiceId")
-                        .IsUnique();
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Consults", (string)null);
                 });
@@ -166,6 +165,12 @@ namespace ClinicManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Cpf")
+                        .IsUnique();
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Doctors");
                 });
 
@@ -214,6 +219,12 @@ namespace ClinicManagement.Infrastructure.Migrations
                         .HasColumnType("character varying(8)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Cpf")
+                        .IsUnique();
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Patients");
                 });
@@ -276,10 +287,9 @@ namespace ClinicManagement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("ClinicManagement.Domain.Models.Service", "Service")
-                        .WithOne("Consult")
-                        .HasForeignKey("ClinicManagement.Domain.Models.Consult", "ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Consults")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Doctor");
 
@@ -304,7 +314,7 @@ namespace ClinicManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("ClinicManagement.Domain.Models.Service", b =>
                 {
-                    b.Navigation("Consult");
+                    b.Navigation("Consults");
                 });
 #pragma warning restore 612, 618
         }

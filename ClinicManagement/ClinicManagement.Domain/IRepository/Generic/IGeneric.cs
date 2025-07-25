@@ -12,6 +12,6 @@ namespace ClinicManagement.Domain.IRepository.Generic
         Task Add(T entity);
         Task Update(T entity);
         Task Delete(Guid id);
-        Task<IEnumerable<T>> GetAll(ParametrosPaginacao parametrosPaginacao);
+        Task<(IEnumerable<T> items, int totalCount)> GetAll(ParametrosPaginacao parametrosPaginacao);
     }
 }

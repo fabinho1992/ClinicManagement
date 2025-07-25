@@ -55,7 +55,7 @@ namespace ClinicManagement.Application.Queries.Patients.PatientsByCpf
             }
 
             var patientResponse = new ResponsePatientsDetails(patient.Id, patient.Name, patient.DateOfBirth.ToString("d"),
-                patient.BloodType, patient.Phone, patient.Email, patient.Cpf, addreess, consults);
+                patient.BloodType, patient.Phone, patient.Email, patient.Cpf, addreess, consults, patient.Height, patient.Weight);
 
 
             return ResultViewModel<ResponsePatientsDetails>.Success(patientResponse);

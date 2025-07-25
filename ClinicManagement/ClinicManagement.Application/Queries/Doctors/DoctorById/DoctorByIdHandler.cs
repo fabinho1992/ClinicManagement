@@ -27,7 +27,7 @@ namespace ClinicManagement.Application.Queries.Doctors.DoctorById
             var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(request.Id);
             if (doctor is null)
             {
-                return ResultViewModel<ResponseDoctorById>.Error("The Patient could not be found");
+                return ResultViewModel<ResponseDoctorById>.Error("The Doctor could not be found");
             }
 
             var addreess = new ResponseAddress

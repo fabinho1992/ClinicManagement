@@ -1,5 +1,6 @@
 ﻿using BloodDonationDataBase.Domain.Models;
 using ClinicManagement.Application.Commands.PatientCommands.CreatePatient;
+using ClinicManagement.Application.Commands.PatientCommands.DeleteCommand;
 using ClinicManagement.Application.Commands.PatientCommands.UpdatePatient;
 using ClinicManagement.Application.Queries.Patients;
 using ClinicManagement.Application.Queries.Patients.PatientsByCpf;
@@ -8,6 +9,7 @@ using ClinicManagement.Application.Queries.Patients.PatientsByList;
 using ClinicManagement.Domain.IRepository;
 using ClinicManagement.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
@@ -41,7 +43,9 @@ namespace ClinicManagement.Api.Controllers
                 return BadRequest(result.Message);
             }
 
-            return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
+            return Ok(result);
+
+            //return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
         }
 
         [HttpGet("{id:guid}")]
@@ -73,6 +77,7 @@ namespace ClinicManagement.Api.Controllers
         }
 
         [HttpGet]
+        //[Authorize]
         public async Task<IActionResult> GetAll([FromQuery] ParametrosPaginacao paginacao)
         {
             var query = new PatientsLisQuery(paginacao.PageNumber, paginacao.PageSize);
@@ -95,6 +100,25 @@ namespace ClinicManagement.Api.Controllers
             }
 
             var result = await _mediator.Send(patientUpdate);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> Delete(DeletePatientCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
             {

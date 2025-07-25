@@ -30,9 +30,10 @@ namespace ClinicManagement.Infrastructure.Configurations
             builder.Property(x => x.Duration)
                 .IsRequired();
 
-            builder.HasOne(s => s.Consult)
-                .WithOne(a => a.Service)
-                .HasForeignKey<Consult>(a => a.ServiceId);
+            builder.HasMany(x => x.Consults)
+                .WithOne(x => x.Service)
+                .HasForeignKey(x => x.ServiceId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

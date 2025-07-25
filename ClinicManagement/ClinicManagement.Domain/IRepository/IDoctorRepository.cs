@@ -11,5 +11,6 @@ namespace ClinicManagement.Domain.IRepository
     public interface IDoctorRepository : IGeneric<Doctor>
     {
         Task<Doctor> GetByIdAsync(Guid id);
+        Task<Doctor> GetByEmail(string email);
     }
 }

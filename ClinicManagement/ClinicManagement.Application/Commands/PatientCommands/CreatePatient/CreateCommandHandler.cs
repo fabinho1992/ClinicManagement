@@ -26,12 +26,6 @@ namespace ClinicManagement.Application.Commands.PatientCommands.CreatePatient
 
         public async Task<ResultViewModel<Guid>> Handle(CreatePatCommand request, CancellationToken cancellationToken)
         {
-            var zipCode = await _addressZipCode.SearchZipCode(request.ZipCode);
-
-            if (zipCode is null)
-            {
-                return ResultViewModel<Guid>.Error("ZipCode not found");
-            }
 
             var patient = new Patient(request.Name, request.DateOfBirth, request.BloodType,
                 request.Phone, request.Email, request.Cpf, request.ZipCode, request.Height, request.Weight);
@@ -39,8 +33,8 @@ namespace ClinicManagement.Application.Commands.PatientCommands.CreatePatient
             await _unitOfWork.Commit();
 
             
-            var address = new Address(street: zipCode.Logradouro, city: zipCode.Localidade, state: zipCode.Uf,
-                zipCode: zipCode.Cep, complement: request.Complement,doctorId: null, patientId: patient.Id, typeUser: TypeUser.Patient);
+            var address = new Address(street: request.Street, city: request.City, state: request.State,
+                zipCode: request.ZipCode, complement: request.Complement,doctorId: null, patientId: patient.Id, typeUser: TypeUser.Patient);
 
             await _unitOfWork.AddressRepository.CreateAsync(address);
             await _unitOfWork.Commit();

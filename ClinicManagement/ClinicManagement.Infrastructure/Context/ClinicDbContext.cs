@@ -12,7 +12,7 @@ namespace ClinicManagement.Infrastructure.Context
     public class ClinicDbContext : DbContext
     {
         public ClinicDbContext() { }
-        public ClinicDbContext(DbContextOptions options) : base(options)
+        public ClinicDbContext(DbContextOptions<ClinicDbContext> options) : base(options)
         {
         }
 

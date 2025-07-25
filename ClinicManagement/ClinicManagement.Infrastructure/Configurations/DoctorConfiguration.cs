@@ -28,8 +28,14 @@ namespace ClinicManagement.Infrastructure.Configurations
             builder.Property(x => x.Email)
                 .HasMaxLength(200);
 
+            builder.HasIndex(x => x.Email)
+            .IsUnique();
+
             builder.Property(x => x.Cpf)
                 .HasMaxLength(14);
+
+            builder.HasIndex(x => x.Cpf)
+            .IsUnique();
 
             builder.Property(x => x.CRM)
                 .IsRequired();

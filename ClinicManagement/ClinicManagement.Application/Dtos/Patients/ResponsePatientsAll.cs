@@ -21,12 +21,12 @@ namespace ClinicManagement.Application.Dtos.Patients
             Cpf = cpf;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string DateOfBirth { get; set; }
-        public BloodType BloodType { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Cpf { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public string DateOfBirth { get; private set; }
+        public BloodType BloodType { get; private set; }
+        public string Phone { get; private set; }
+        public string Email { get; private set; }
+        public string Cpf { get; private set; }
     }
 }

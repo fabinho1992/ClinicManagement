@@ -12,5 +12,6 @@ namespace ClinicManagement.Domain.IRepository
     {
         Task<Patient> GetByIdAsync(Guid id);
         Task<Patient> GetByCpfAsync(string cpf);
+        Task<Patient> GetByEmail(string email);
     }
 }

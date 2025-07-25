@@ -34,11 +34,20 @@ namespace Infraestrutura.Repository.Generic
             _contextBase.Set<T>().Remove(entityId);
         }
 
-        public async Task<IEnumerable<T>> GetAll(ParametrosPaginacao parametrosPaginacao)
+        public async Task<(IEnumerable<T> items, int totalCount)> GetAll(ParametrosPaginacao parametrosPaginacao)
         {
-            return await _contextBase.Set<T>().AsNoTracking()
+            var query = _contextBase.Set<T>().AsNoTracking();
+
+            // Primeiro obtemos o total de registros
+            var totalCount = await query.CountAsync();
+
+            // Depois aplicamos a paginação
+            var items = await query
                 .Skip((parametrosPaginacao.PageNumber - 1) * parametrosPaginacao.PageSize)
-                .Take(parametrosPaginacao.PageSize).ToListAsync();
+                .Take(parametrosPaginacao.PageSize)
+                .ToListAsync();
+
+            return (items, totalCount);
         }
 
         public async Task Update(T entity)
