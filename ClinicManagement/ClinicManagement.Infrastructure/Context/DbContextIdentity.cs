@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ClinicManagement.Infrastructure.Context.User;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Infrastructure.Context
 {
-    public class DbContextIdentity : IdentityDbContext<IdentityUser>
+    public class DbContextIdentity : IdentityDbContext<ApplicationUser>
     {
         public DbContextIdentity(DbContextOptions<DbContextIdentity> options) : base(options)
         {

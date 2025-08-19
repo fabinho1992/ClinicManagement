@@ -20,7 +20,10 @@ namespace BookReviewManager.Application.Commands.CommandsAuth.CommandLogin
             var login = new Login(request.Email, request.Password);
             var result = await _loginUser.LoginAsync(login);
 
-
+            if (result.Status == "Bad Request 400")
+            {
+                return ResultViewModel<ResponseLogin>.Error(result.Message);
+            }
 
             return ResultViewModel<ResponseLogin>.Success(result);
         }

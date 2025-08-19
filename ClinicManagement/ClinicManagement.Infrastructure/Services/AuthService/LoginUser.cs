@@ -1,6 +1,7 @@
 ﻿using BookReviewManager.Domain.IServices.Autentication;
 using BookReviewManager.Domain.ModelsAutentication;
 using ClinicManagement.Domain.Services.IAuthService;
+using ClinicManagement.Infrastructure.Context.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,10 +12,10 @@ namespace BookReviewManager.Infrastructure.Service.Identity
     public class LoginUser : ILoginUser
     {
         private ITokenService _tokenService;
-        private UserManager<IdentityUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
         private IConfiguration _configuration;
 
-        public LoginUser(ITokenService tokenService, UserManager<IdentityUser>
+        public LoginUser(ITokenService tokenService, UserManager<ApplicationUser>
             userManager, IConfiguration configuration)
         {
             _tokenService = tokenService;

@@ -38,12 +38,12 @@ namespace ClinicManagement.Application.Queries.Doctors.DoctorById
                 Complement = doctor.Address.Complement
             };
 
-            var consults = new List<RespConsutPatient>();
+            var consults = new List<RespConsultDoctor>();
             foreach (var consult in doctor.Consults)
             {
-                var newConsult = new RespConsutPatient
+                var newConsult = new RespConsultDoctor
                 {
-                    NameDoctor = consult.Doctor.Name,
+                    NamePatient = consult.Patient.Name,
                     NameService = consult.Service.Name,
                     Convention = consult.Convention,
                     TypeTreatment = consult.TypeTreatment.ToString(),

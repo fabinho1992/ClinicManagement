@@ -1,4 +1,5 @@
-﻿using FinancialGoalsManager.Application.Dtos;
+﻿using ClinicManagement.Infrastructure.Context.User;
+using FinancialGoalsManager.Application.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
@@ -12,10 +13,10 @@ namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandCha
 {
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, ResultViewModel<string>>
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMemoryCache _cache;
 
-        public ChangePasswordCommandHandler(UserManager<IdentityUser> userManager, IMemoryCache cache)
+        public ChangePasswordCommandHandler(UserManager<ApplicationUser> userManager, IMemoryCache cache)
         {
             _userManager = userManager;
             _cache = cache;
@@ -37,13 +38,11 @@ namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandCha
                 return ResultViewModel<string>.Error("Usuário não encontrado.");
             }
 
+            // 3. Gerar token de reset de senha
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            // 3. Gerar um novo hash de senha
-            var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, request.Password);
-
-            // 4. Atualizar o hash da senha no usuário
-            user.PasswordHash = newPasswordHash;
-            var result = await _userManager.UpdateAsync(user);
+            // 4. Resetar a senha usando o token
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, request.Password);
 
             if (!result.Succeeded)
             {

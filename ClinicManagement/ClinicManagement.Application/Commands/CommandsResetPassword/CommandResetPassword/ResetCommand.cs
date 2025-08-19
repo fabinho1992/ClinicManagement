@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandResetPassword
 {
-    public class ResetCommand : IRequest<ResultViewModel>
+    public class ResetCommand : IRequest<ResultViewModel<string>>
     {
         public ResetCommand(string email)
         {

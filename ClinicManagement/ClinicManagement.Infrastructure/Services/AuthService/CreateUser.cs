@@ -1,5 +1,6 @@
 ﻿using BookReviewManager.Domain.IServices.Autentication;
 using BookReviewManager.Domain.ModelsAutentication;
+using ClinicManagement.Infrastructure.Context.User;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace BookReviewManager.Infrastructure.Service.Identity
 {
     public class CreateUser : ICreateUser
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateUser(UserManager<IdentityUser> userManager)
+        public CreateUser(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -26,9 +27,10 @@ namespace BookReviewManager.Infrastructure.Service.Identity
             {
                 return new ResponseIdentityCreate { Status = "Erro", Message = "User already exists!" };// se existir passo esse erro
             }
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
-                UserName = registerUser.UserName,
+                DisplayName = registerUser.UserName,
+                UserName = registerUser.Email,
                 Email = registerUser.Email,
                 SecurityStamp = Guid.NewGuid().ToString()
             };

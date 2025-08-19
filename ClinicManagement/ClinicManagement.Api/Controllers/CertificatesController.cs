@@ -2,6 +2,7 @@
 using ClinicManagement.Domain.Models;
 using ClinicManagement.Domain.ModelsReport;
 using ClinicManagement.Infrastructure.Reports;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

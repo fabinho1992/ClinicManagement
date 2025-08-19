@@ -66,7 +66,7 @@ namespace ClinicManagement.Api.Controllers
         }
 
         [HttpGet("Get-date")]
-        public async Task<IActionResult> GetAllDate(DateTime date)
+        public async Task<IActionResult> GetAllDate([FromQuery] DateTime date)
         {
             var query = new ConsultGetDateQuery(date);
 

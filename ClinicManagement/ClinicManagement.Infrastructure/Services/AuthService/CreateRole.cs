@@ -1,5 +1,6 @@
 ﻿using BookReviewManager.Domain.IServices.Autentication;
 using BookReviewManager.Domain.ModelsAutentication;
+using ClinicManagement.Infrastructure.Context.User;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace BookReviewManager.Infrastructure.Service.Identity
     public class CreateRole : ICreateRole
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateRole(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public CreateRole(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;

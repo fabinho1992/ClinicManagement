@@ -14,6 +14,7 @@ builder.Services.AddInjectionDepedencys();
 builder.Services.AddExtensionsMediatR();
 builder.Services.AddSettingsController();
 builder.Services.AddJwtAuthetication(builder.Configuration);
+builder.Services.AddFluentValidation();
 
 
 builder.Services.AddControllers();

@@ -17,6 +17,7 @@ namespace ClinicManagement.Api.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
+    [Authorize]
     public class DoctorController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -27,7 +28,6 @@ namespace ClinicManagement.Api.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
         
         public async Task<IActionResult> Create(CreateDocCommand command)
         {
@@ -47,7 +47,6 @@ namespace ClinicManagement.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] ParametrosPaginacao paginacao)
         {
             var query = new DoctorListQuery(paginacao.PageNumber, paginacao.PageSize);

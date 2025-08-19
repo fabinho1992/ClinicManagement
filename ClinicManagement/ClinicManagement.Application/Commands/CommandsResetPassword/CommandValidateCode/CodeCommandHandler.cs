@@ -1,4 +1,5 @@
-﻿using FinancialGoalsManager.Application.Dtos;
+﻿using ClinicManagement.Infrastructure.Context.User;
+using FinancialGoalsManager.Application.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,28 +11,28 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandValidateCode
 {
-    public class CodeCommandHandler : IRequestHandler<ValidateCodeCommand, ResultViewModel>
+    public class CodeCommandHandler : IRequestHandler<ValidateCodeCommand, ResultViewModel<string>>
     {
         private readonly IMemoryCache _cache;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CodeCommandHandler(IMemoryCache cache, UserManager<IdentityUser> userManager)
+        public CodeCommandHandler(IMemoryCache cache, UserManager<ApplicationUser> userManager)
         {
             _cache = cache;
             _userManager = userManager;
         }
 
-        public async Task<ResultViewModel> Handle(ValidateCodeCommand request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel<string>> Handle(ValidateCodeCommand request, CancellationToken cancellationToken)
         {
             var keyCache = $"RecoveryCode:{request.Email}";
 
             if (!_cache.TryGetValue(keyCache, out string? code) || code != request.Code)
             {
                 Console.WriteLine($"Esse é o código :{code}");
-                return ResultViewModel.Error("Código não está válido!");
+                return ResultViewModel<string>.Error("Código não está válido!");
             }
 
-            return ResultViewModel.Success();
+            return ResultViewModel<string>.Success($"{request.Code}, {request.Email}");
         }
     }
 }

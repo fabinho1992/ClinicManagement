@@ -19,6 +19,7 @@ namespace ClinicManagement.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class PatientController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -77,7 +78,6 @@ namespace ClinicManagement.Api.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
         public async Task<IActionResult> GetAll([FromQuery] ParametrosPaginacao paginacao)
         {
             var query = new PatientsLisQuery(paginacao.PageNumber, paginacao.PageSize);
@@ -110,7 +110,6 @@ namespace ClinicManagement.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         public async Task<IActionResult> Delete(DeletePatientCommand command)
         {
             if (!ModelState.IsValid)

@@ -12,7 +12,7 @@ namespace ClinicManagement.Application.Dtos.Doctors
     public class ResponseDoctorById
     {
         public ResponseDoctorById(Guid id, string name, string dateOfBirth, BloodType bloodType, string phone, string email, string cpf, string cRM,
-            Specialty specialty, ResponseAddress responseAddress, List<RespConsutPatient>? respConsutPatients)
+            Specialty specialty, ResponseAddress responseAddress, List<RespConsultDoctor>? respConsutPatients)
         {
             Id = id;
             Name = name;
@@ -37,6 +37,6 @@ namespace ClinicManagement.Application.Dtos.Doctors
         public string CRM { get;  set; }
         public Specialty Specialty { get;  set; }
         public ResponseAddress ResponseAddress { get; set; }
-        public List<RespConsutPatient>? RespConsutPatients { get; set; }
+        public List<RespConsultDoctor>? RespConsutPatients { get; set; }
     }
 }

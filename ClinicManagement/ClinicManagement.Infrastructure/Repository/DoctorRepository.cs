@@ -31,8 +31,11 @@ namespace ClinicManagement.Infrastructure.Repository
         public async Task<Doctor> GetByIdAsync(Guid id)
         {
             var doctor = await _context.Doctors
-                .Include(d => d.Consults)
-                .Include(d => d.Address)
+                .Include(p => p.Consults)
+                    .ThenInclude(c => c.Patient)
+                .Include(p => p.Consults)
+                    .ThenInclude(c => c.Service)
+                .Include(p => p.Address)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             return doctor;

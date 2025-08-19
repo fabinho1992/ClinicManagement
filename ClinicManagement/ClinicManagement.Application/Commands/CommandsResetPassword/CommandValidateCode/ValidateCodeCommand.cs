@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandValidateCode
 {
-    public class ValidateCodeCommand : IRequest<ResultViewModel>
+    public class ValidateCodeCommand : IRequest<ResultViewModel<string>>
     {
         public ValidateCodeCommand(string email, string code)
         {

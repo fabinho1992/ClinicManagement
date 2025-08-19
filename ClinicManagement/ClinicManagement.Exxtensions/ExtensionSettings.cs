@@ -2,15 +2,19 @@
 using BloodDonationDataBase.Infrastructure.Services;
 using BookReviewManager.Domain.IServices.Autentication;
 using BookReviewManager.Infrastructure.Service.Identity;
+using ClinicManagement.Application.FluentValidation.PatientsValidation;
 using ClinicManagement.Application.Services.EmailServices;
 using ClinicManagement.Application.Services.WorkServices;
 using ClinicManagement.Domain.IRepository;
 using ClinicManagement.Domain.Services.EmailServices;
 using ClinicManagement.Domain.Services.IAuthService;
 using ClinicManagement.Infrastructure.Context;
+using ClinicManagement.Infrastructure.Context.User;
 using ClinicManagement.Infrastructure.Reports;
 using ClinicManagement.Infrastructure.Repository;
 using ClinicManagement.Infrastructure.Services.AuthService;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +41,7 @@ namespace ClinicManagement.Extensions
              options.UseNpgsql(connectionString));
 
             //Identity
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<DbContextIdentity>()
                 .AddDefaultTokenProviders();
 
@@ -52,6 +56,7 @@ namespace ClinicManagement.Extensions
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IConsulRepository, ConsultRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRepositoryUser, RepositoryUser>();
             services.AddScoped<IAddressZipCode, AddressZipCode>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ISendEmail, SendEmail>();
@@ -142,6 +147,14 @@ namespace ClinicManagement.Extensions
                 opt.AddPolicy("Recepcionista", policy => policy.RequireRole("Recepcionista"));
             }
             );
+
+            return services;
+        }
+
+        public static IServiceCollection AddFluentValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation()
+                .AddValidatorsFromAssemblyContaining<CreatePatientValidation>();
 
             return services;
         }

@@ -1,5 +1,6 @@
 ﻿using ClinicManagement.Domain.IRepository;
 using ClinicManagement.Domain.Services.EmailServices;
+using ClinicManagement.Infrastructure.Context.User;
 using FinancialGoalsManager.Application.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -12,20 +13,20 @@ using System.Threading.Tasks;
 
 namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandResetPassword
 {
-    public class ResetCommandHandler : IRequestHandler<ResetCommand, ResultViewModel>
+    public class ResetCommandHandler : IRequestHandler<ResetCommand, ResultViewModel<string>>
     {
         private readonly ISendEmail _sendEmail;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMemoryCache _cache;
 
-        public ResetCommandHandler(ISendEmail sendEmail, IMemoryCache cache, UserManager<IdentityUser> userManager)
+        public ResetCommandHandler(ISendEmail sendEmail, IMemoryCache cache, UserManager<ApplicationUser> userManager)
         {
             _sendEmail = sendEmail;
             _cache = cache;
             _userManager = userManager;
         }
 
-        public async Task<ResultViewModel> Handle(ResetCommand request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel<string>> Handle(ResetCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -34,15 +35,18 @@ namespace ClinicManagement.Application.Commands.CommandsResetPassword.CommandRes
 
             if(user is null)
             {
-                return ResultViewModel.Error("Email não existe!");
+                return ResultViewModel<string>.Error("Email não existe!");
             }
                 var keyCache = $"RecoveryCode:{request.Email}";
                 _cache.Set(keyCache, code, TimeSpan.FromDays(1));
 
+                user.ResetToken = code;
+                await _userManager.UpdateAsync(user);
+
                 await _sendEmail.ResetPassword(user.Email, user.Email, code);
             
 
-            return ResultViewModel.Success();
+            return ResultViewModel<string>.Success("Código de recuperação enviado para seu e-mail");
 
             
         }
