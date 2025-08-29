@@ -19,7 +19,7 @@ namespace ClinicManagement.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PatientController : ControllerBase
     {
         private readonly IMediator _mediator;
