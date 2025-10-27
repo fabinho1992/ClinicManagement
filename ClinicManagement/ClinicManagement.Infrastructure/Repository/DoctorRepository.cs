@@ -38,6 +38,7 @@ namespace ClinicManagement.Infrastructure.Repository
                 .Include(p => p.Address)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
+
             return doctor;
         }
     }
